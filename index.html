@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Horilose Business Card</title>
+    <title>WebCard</title>
     <base href="/" />
     <style>
         :root {
@@ -14,10 +14,20 @@
             --opensilver-loading-progress-border-color: #505050;
         }
     </style>
-    <!-- Подключаем стили загрузки из локальной папки libs -->
-    <link rel="stylesheet" type="text/css" href="libs/loading-indicator.css" />
-    <!-- Подключаем анимацию загрузки из локальной папки libs -->
-    <script src="libs/loading-animation.js"></script>
+    <script>
+        (function () {
+            const style = document.createElement('link');
+            style.setAttribute('rel', 'stylesheet');
+            style.setAttribute('type', 'text/css');
+            style.setAttribute('href', 'modern/loading-indicator.css?date=' + new Date().toISOString());
+            document.head.appendChild(style);
+
+            const script = document.createElement('script');
+            script.setAttribute('type', 'application/javascript');
+            script.setAttribute('src', 'modern/loading-animation.js?date=' + new Date().toISOString());
+            document.head.appendChild(script);
+        })();
+    </script>
 </head>
 <body>
     <div id="app">
@@ -38,27 +48,19 @@
     </div>
     <div id="opensilver-root" style="position: relative; width: 100%; height: 100%; overflow-x: hidden; overflow-y: hidden"></div>
 
-    <!-- Подключаем opensilver.js из локальной папки libs -->
-    <script src="libs/opensilver.js"></script>
-    
-    <!-- Подключаем blazor.webassembly.js из локальной папки libs -->
-    <script src="libs/blazor.webassembly.js"></script>
-
-    <!-- Здесь будет запускаться ваше приложение -->
     <script>
-        System.config({
-            meta: {
-                '*.dll': { loader: 'blazor-http-loader' },
-                '*.wasm': { loader: 'blazor-http-loader' },
-                '*.pdb': { loader: 'blazor-http-loader' }
-            }
-        });
-        
-        OpenSilver.init({
-            applicationPath: 'MyBusinessCard.Browser.dll',
-            resourcesPath: './',
-            autoStart: true
-        });
+        (function () {
+            const script = document.createElement('script');
+            script.setAttribute('type', 'application/javascript');
+            script.setAttribute('src', 'libs/opensilver.js?date=' + new Date().toISOString());
+            script.addEventListener('load', function () {
+                const scriptWebAssembly = document.createElement('script');
+                scriptWebAssembly.setAttribute('type', 'application/javascript');
+                scriptWebAssembly.setAttribute('src', '_framework/blazor.webassembly.js?date=' + new Date().toISOString());
+                document.body.appendChild(scriptWebAssembly);
+            });
+            document.body.appendChild(script);
+        })();
     </script>
 </body>
 </html>
